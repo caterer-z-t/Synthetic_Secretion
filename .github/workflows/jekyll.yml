@@ -1,9 +1,9 @@
-name: Deploy Jekyll site to GitHub Pages
+name: Deploy Sphinx Docs
 
 on:
   push:
     branches:
-      - website  # Change if your default branch is different
+      - website
 
 jobs:
   build-deploy:
@@ -13,25 +13,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          ruby-version: '3.1'  # Adjust based on your Jekyll version
-          bundler-cache: true
+          python-version: '3.12'
 
-      - name: Install Jekyll dependencies
+      - name: Install dependencies
+        run: |
+          pip install sphinx sphinx-rtd-theme
+
+      - name: Build documentation
         run: |
           cd _website
-          bundle install
-
-      - name: Build Jekyll site
-        run: |
-          cd _website
-          bundle exec jekyll build --destination ../_site
+          make html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           personal_token: ${{ secrets.GH_PAT }}
-          publish_dir: _site
+          publish_dir: docs/_build/html
           publish_branch: gh-pages
