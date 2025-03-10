@@ -1,0 +1,20 @@
+current directory: /Users/zc/Library/CloudStorage/OneDrive-UCB-O365/academics/IQ_Bio/team_rotation/Synthetic_Secretion/_website/vendor/bundle/ruby/3.2.0/gems/racc-1.8.1/ext/racc/cparse
+/Users/zc/.rbenv/versions/3.2.0/bin/ruby -I /Users/zc/.rbenv/versions/3.2.0/lib/ruby/3.2.0 extconf.rb
+creating Makefile
+
+current directory: /Users/zc/Library/CloudStorage/OneDrive-UCB-O365/academics/IQ_Bio/team_rotation/Synthetic_Secretion/_website/vendor/bundle/ruby/3.2.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250310-58716-jcevvk sitelibdir\=./.gem.20250310-58716-jcevvk clean
+
+current directory: /Users/zc/Library/CloudStorage/OneDrive-UCB-O365/academics/IQ_Bio/team_rotation/Synthetic_Secretion/_website/vendor/bundle/ruby/3.2.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250310-58716-jcevvk sitelibdir\=./.gem.20250310-58716-jcevvk
+compiling cparse.c
+linking shared-object racc/cparse.bundle
+ld: warning: ignoring duplicate libraries: '-lruby.3.2'
+ld: warning: ignoring file '/Users/zc/.rbenv/versions/3.2.0/lib/libruby.3.2.dylib': found architecture 'arm64', required architecture 'x86_64'
+
+current directory: /Users/zc/Library/CloudStorage/OneDrive-UCB-O365/academics/IQ_Bio/team_rotation/Synthetic_Secretion/_website/vendor/bundle/ruby/3.2.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250310-58716-jcevvk sitelibdir\=./.gem.20250310-58716-jcevvk install
+/opt/homebrew/bin/ginstall -c -m 0755 cparse.bundle ./.gem.20250310-58716-jcevvk/racc
+
+current directory: /Users/zc/Library/CloudStorage/OneDrive-UCB-O365/academics/IQ_Bio/team_rotation/Synthetic_Secretion/_website/vendor/bundle/ruby/3.2.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250310-58716-jcevvk sitelibdir\=./.gem.20250310-58716-jcevvk clean

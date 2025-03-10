@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-36889698-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-36889698-2');
+</script>
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>Prevalence calculator (known sensitivity and specificity)</title>
+	</head>
+	<body>
+		<div class="container">
+
+			<div class="section">
+				<div class="center-align">
+					<a href="/covid19testgroup">
+						<img src="/assets/images/covid/header.png">
+					</a>
+				</div>
+				<h2 class="center-align shift-up" style="margin-top:-5px;">COVID-19 Testing Group</h2>
+
+				<div>The COVID-19 Testing Group is a community resource for sharing COVID-19 prevalence, seroprevalence, and burden studies, as well as planning tools and data. This website is maintained by the <a href="https://larremorelab.github.io">Larremore Lab</a> at the University of Colorado, Boulder and the <a href="https://sites.sph.harvard.edu/grad-lab/">Grad Lab</a> at the Harvard T.H. Chan School of Public Health. 
+				</div>
+			</div>
+			<div id="app">
+				<h3 style="margin-top: -5px">Prevalence calculator<br>with known sensitivity and specificity</h3>
+				<div id="desc">
+					This calculator is one of multiple resources available through the <a href="https://larremorelab.github.io/covid19testgroup">COVID-19 Testing Group</a>. It accompanies the preprint "<a href="https://www.medrxiv.org/content/10.1101/2020.04.15.20067066v2">Estimating SARS-CoV-2 seroprevalence and epidemiological parameters with uncertainty from serological surveys</a>". This work is not yet peer reviewed.
+
+					<h5>Given test results in a population sample, using a test with <b>known sensitivity and specificity</b>, what is the posterior distribution of prevalence in the population?</h5>
+				</div>
+
+				<div>
+					<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="inputs1">
+						<tr class="row">
+							<th class="mdl-data-table__cell--non-numeric label"># positive tests</th>
+							<td>
+								<input class="validate" id="numpos" type="number" step="1" min="0" value="16">
+								<div class="helper-text" data-error="Must be >=0"></div>
+							</td>
+						</tr>
+
+						<tr class="row">
+							<th class="mdl-data-table__cell--non-numeric label"># negative tests</th>
+							<td>
+								<input class="validate" id="numneg" type="number" step="1" min="0" value="84">
+								<div class="helper-text" data-error="Must be >=0"></div>
+							</td>
+						</tr>
+
+						<tr class="row">
+							<th class="mdl-data-table__cell--non-numeric label">Sensitivity</th>
+							<td>
+								<input class="validate" id="sensitivity" type="number" step="0.001" min="0.1" max="1" value="0.93">
+								<div class="helper-text" data-error="Must be between 0.1 and 1"></div>
+							</td>
+						</tr>
+
+						<tr class="row">
+							<th class="mdl-data-table__cell--non-numeric label">Specificity</th>
+							<td>
+								<input class="validate" id="specificity" type="number" step="0.001" min="0.1" max="1" value="0.975">
+								<div class="helper-text" data-error="Must be between 0.1 and 1"></div>
+							</td>
+						</tr>
+					</table>
+
+					<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="runsampling">Update Graph</button>
+					<div id="samplingProgress" class="mdl-progress mdl-js-progress"></div>
+				</div>
+
+				<div id="vizcontainer" class="mdl-shadow--4dp">
+					<div id="posteriorviz"></div>
+					<button class="mdl-button mdl-js-button mdl-button--raised" id="downloadsvg">Download image</button>
+				</div>
+
+				<p>This is in beta. Please report bugs with screenshots to daniel.larremore@colorado.edu. The source code for this visualization is on <a href="https://github.com/samzhang111/seroprevalence-viz">Github</a>.</p>
+			</div>
+
+		</div>
+
+		<link rel="stylesheet" type="text/css" href="/assets/css/covid/calc1.css">
+		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-deep_purple.min.css">
+		<script defer="defer" src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+		<link rel="stylesheet" href="/assets/css/covid/covid19testgroup.css">
+	<script src="/assets/js/covid/calc1.cface58feea9fc97d083.js"></script></body>
+</html>

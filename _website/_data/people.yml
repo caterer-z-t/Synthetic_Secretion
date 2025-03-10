@@ -1,0 +1,180 @@
+people:
+  - name: Dan Larremore
+    url: /dan/
+    image_path: /assets/images/people/dan.gif
+    title: Principal Investigator
+    subject: Associate Professor
+    aliases:
+      - Daniel B. Larremore
+  - name: Dr. Ellen DeGennaro
+    url: https://www.linkedin.com/in/ellen-degennaro-b3787a145/
+    image_path: /assets/images/people/ellen_degennaro.gif
+    title: Postdoctoral Fellow
+    subject: infectious diseases
+    aliases:
+      - Ellen DeGennaro
+  - name: Dr. Rémy Pasco
+    url: https://scholar.google.com/citations?user=Uap8gRUAAAAJ&hl=en
+    image_path: /assets/images/people/remy_pasco.gif
+    title: Research Associate
+    subject: infectious diseases
+    aliases:
+      - Remy Pasco
+      - Rémy Pasco
+  - name: Ben Aoki-Sherwood
+    url: https://aoki-sherwoodb.github.io/
+    image_path: /assets/images/people/ben_aokisherwood.gif
+    title: PhD Student, CS*
+    subject: mathematical methods
+  - name: Kate Barnes
+    url: https://k-barnes.github.io/
+    image_path: /assets/images/people/kate_barnes.gif
+    title: PhD Student, CS*
+    subject: the scientific ecosystem  
+  - name: Gabrielle Gionet
+    url: https://scholar.google.com/citations?user=FEHb_40AAAAJ&hl=en
+    image_path: /assets/images/people/gabi.gif
+    title: PhD Student, MCDB†
+    subject: infectious diseases
+  - name: Casey Middleton
+    image_path: /assets/images/people/casey.gif
+    url: https://github.com/CaseyMiddleton
+    title: PhD Student, IQ Bio
+    subject: infectious diseases
+    aliases:
+      - Casey E. Middleton
+  - name: Katie Spoon
+    url: https://katiespoon.github.io/
+    image_path: /assets/images/people/katie_spoon.gif
+    title: PhD Student, CS*
+    subject: the scientific ecosystem
+  - name: Chethan KP
+    url: https://github.com/chethan749
+    image_path: /assets/images/people/chethan.gif
+    title: MS Student, CS
+    subject: the scientific ecosystem
+  
+alumni:
+  - name: Dr. Ian Van Buskirk
+    url: https://www.coarsegraining.com/
+  - name: Dr. Kate Bubar
+    url: https://twitter.com/bubar_kate?lang=en
+    now: Postdoc, Stanford University
+    aliases:
+      - Kate Bubar
+      - Kate M. Bubar
+      - Dr. Kate Bubar
+  - name: Dr. Nick LaBerge
+    url: https://nlaberge.github.io/
+    now: U.S. Census Bureau
+    aliases:
+      - Nick LaBerge
+      - Nicholas LaBerge
+  - name: Dr. Sam Zhang
+    now: Postdoc, SFI → Faculty, University of Vermont
+    url: https://sam.zhang.fyi/
+    aliases:
+      - Sam Zhang
+  - name: Dr. K. Hunter Wapman
+    now: Writer, New York City
+    url: https://www.hne.golf/
+    aliases:
+      - K. Hunter Wapman
+  - name: Upasana Dutta
+    now: PhD Student, University of Pennsylvania
+    url: https://upasanadutta.owlstown.net/
+  - name: Dr. Tzu-Chi Yen
+    url: https://junipertcy.info/
+    now: Postdoc, Applied Math, University of Colorado Boulder
+    aliases:
+      - Tzu-Chi Yen
+  - name: Dr. Kate Wootton
+    url: https://kwootton.github.io/
+    aliases:
+      - Kate Wootton
+    now: Postdoc, University of Canterbury, New Zealand
+  - name: Dr. Eun Lee
+    now: Faculty, Pukyong National University, South Korea
+    url: /
+    aliases:
+      - Eun Lee
+  - name: Dr. Erik K. Johnson
+    now: Invitae → TetraScience → Research Scientist, Layer Lab, University of Colorado Boulder
+    url: /
+    aliases:
+      - Erik K. Johnson
+  - name: Suchita Lulla
+    now: PhD student, UCLA Genetics & Genomics
+    url: /
+  - name: Suyog Soti
+    now: Google → Databricks
+    url: https://suyogsoti.github.io/
+  - name: Katherine Younglove
+    url: https://www.linkedin.com/in/katherine-younglove-565353169/
+    now: Oracle
+  - name: Robert Steele
+    url: https://github.com/SteeleRobert
+    now: BS program, USC Computer Science
+  - name: Aparajithan Venkateswaran
+    url: https://www.aparavenkat.com/
+    now: PhD, UW Statistics 2024 → Microsoft
+  - name: Aaron Aaeng
+    url: https://github.com/aaronaaeng/
+    now: Nordstrom
+
+
+collaborators:
+  - name: Daniel E. Geer Jr
+    url: http://en.wikipedia.org/wiki/Dan_Geer
+  - name: Julian Rayner
+    url: http://www.sanger.ac.uk/research/faculty/jrayner/
+  - name: Will Proto
+    url: http://www.sanger.ac.uk/research/projects/malariaprogramme-rayner/#sub_team_wp4
+  - name: Juan G. Restrepo
+    url: http://amath.colorado.edu/faculty/juanga/Juan_G._Restrepo.html
+  - name: Ed Ott
+    url: http://www.chaos.umd.edu/personnel/ott.html
+  - name: Woodrow L. Shew
+    url: http://woodrowshew.com
+  - name: Francesco Sorrentino
+    url: http://www.unm.edu/~fsorrentinome/
+  - name: Caroline O. Buckee
+    url: http://ccdd.hsph.harvard.edu/Faculty/Caroline-Buckee
+  - name: Aaron Clauset
+    url: http://tuvalu.santafe.edu/~aaronc/
+  - name: Dane Taylor
+    url: https://sites.google.com/site/danetaylorresearch/
+  - name: Abigail Z. Jacobs
+    url: http://azjacobs.com
+  - name: Leto Peel
+    url: https://googledrive.com/host/0Bz6WHrWac3FrZUtuOExWdlRGVG8/
+  - name: Mason Porter
+    url: http://www.math.ucla.edu/~mason/
+  - name: Cris Moore
+    url: http://tuvalu.santafe.edu/~moore/
+  - name: Sam Arbesman
+    url: http://www.arbesman.net/
+  - name: Samuel F. Way
+    url: http://samfway.com/
+  - name: Mirta Galesic
+    url: https://sites.google.com/site/mirtagalesic/
+  - name: Allison C. Morgan
+    url: http://allisonmorgan.github.io
+  - name: Beatrice Hahn
+    url: http://www.med.upenn.edu/apps/faculty/index.php/g275/p8418831
+  - name: Tina Eliassi-Rad
+    url: http://www.eliassi.org/
+  - name: Joel Nishimura
+    url: http://scholar.google.com/citations?user=CNmFIP0AAAAJ&hl=en
+  - name: Bailey Fosdick
+    url: http://www.stat.colostate.edu/~bailey/
+  - name: Eleanor A. Power
+    url: http://tuvalu.santafe.edu/~epower/Eleanor_Power.html
+  - name: Roberta Sinatra
+    url: http://www.robertasinatra.com/
+  - name: Lauren Childs
+    url: http://www.math.vt.edu/people/lchilds/
+  - name: Tamara Broderick
+    url: http://www.tamarabroderick.com/
+  - name: Johan Ugander
+    url: https://web.stanford.edu/~jugander/
