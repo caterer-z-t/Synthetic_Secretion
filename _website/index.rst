@@ -1,17 +1,14 @@
-.. Synthetic Secretion documentation master file, created by
-   sphinx-quickstart on Mon Mar 10 14:51:01 2025.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Welcome to Synthetic Secretion's documentation!
+=================================================
 
-Synthetic Secretion documentation
-=================================
+This is the main documentation page for Synthetic Secretion.
 
-Add your content using ``reStructuredText`` syntax. See the
-`reStructuredText <https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html>`_
-documentation for details.
-
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   _pages/introduction
+   _pages/usage
