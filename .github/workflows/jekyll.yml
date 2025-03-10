@@ -3,7 +3,7 @@ name: Deploy Jekyll site to GitHub Pages
 on:
   push:
     branches:
-      - main  # Change if your default branch is different
+      - website  # Change if your default branch is different
 
 jobs:
   build-deploy:
@@ -35,4 +35,3 @@ jobs:
           personal_token: ${{ secrets.GH_PAT }}
           publish_dir: _site
           publish_branch: gh-pages
-
