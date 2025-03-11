@@ -1,14 +1,19 @@
-Welcome to Synthetic Secretion's documentation!
-=================================================
-
-This is the main documentation page for Synthetic Secretion.
-
-Contents
---------
+.. include:: ../README.md
+   :parser: commonmark
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Table of Contents
 
-   _pages/introduction
-   _pages/usage
+   _pages/home
+   _pages/about.md
+   _pages/meet_the_team.md
+   _pages/publications_and_references.md
+   CODE_OF_CONDUCT.md
+   CONTRIBUTING.md
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
