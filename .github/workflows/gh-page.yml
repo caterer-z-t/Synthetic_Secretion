@@ -1,0 +1,38 @@
+name: Build and Deploy Sphinx Documentation
+
+on:
+  push:
+    branches:
+      - website  # Adjust this to your development branch
+      - main     # Adjust this to your main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          
+          pip install -r _website/requirements.txt  # If you have other dependencies
+
+      - name: Build Sphinx documentation
+        run: |
+          cd _website
+          make html  # This will build the docs into _build/html
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.GH_PAT }}
+          publish_dir: ./_website/_build/html
+          publish_branch: gh-pages  # This will deploy to the gh-pages branch
