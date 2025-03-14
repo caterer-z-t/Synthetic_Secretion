@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - website  # Adjust this to your development branch
+      - main     # Adjust this to your main branch
 
 jobs:
   build:
