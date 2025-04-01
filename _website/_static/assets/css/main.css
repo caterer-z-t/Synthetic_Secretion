@@ -37,12 +37,12 @@
 
 .team-member-card strong {
     font-size: 1.2em;
-    color: #333;
+    /* color: #333; */
 }
 
 .team-member-card a {
     color: #0073e6;
-    text-decoration: none;
+    /* text-decoration: none; */
 }
 
 .team-member-card a:hover {

@@ -11,7 +11,7 @@ Our team consists of passionate and driven individuals working towards the futur
 <div style="display: flex; justify-content: space-around; align-items: center; gap: 20px;">
 
   <div style="text-align: center; width: 200px;">
-    <a href="logan.html" style="text-decoration: none; color: inherit;">
+    <a href="logan.html">
       <strong>Logan Barrios</strong><br>
       <img class="team-member" src="../../_static/assets/loganbarrios.png" alt="Logan Barrios">
     </a>
@@ -22,7 +22,7 @@ Our team consists of passionate and driven individuals working towards the futur
 
 
   <div style="text-align: center; width: 200px;">
-  <a href='pedro.html' style="text-decoration: none; color: inherit;">
+  <a href='pedro.html' >
       <strong>Pedro Lemos</strong><br>
       <img class="team-member" src="../../_static/assets/lemosheadshot.png" alt="Pedro Lemos"> 
     </a>
@@ -31,9 +31,9 @@ Our team consists of passionate and driven individuals working towards the futur
   </div>
 
   <div style="text-align: center; width: 200px;">
-  <a href="zac.html" style="text-decoration: none; color: inherit;">
+  <a href="zac.html" >
     <strong>Zachary Caterer</strong><br>
-      <img class="team-member" src="../../_static/assets/Zach%20Caterer-DSC_0722.jpg" alt="Zachary Caterer">
+      <img class="team-member" src="_static/assets/Zach%20Caterer-DSC_0722.jpg" alt="Zachary Caterer">
     </a>
     <a href="http://caterer-z-t.github.io">Website</a> | <a href="https://www.linkedin.com/in/zacharytcaterer/">LinkedIn</a><br>
     Research Interests:
@@ -46,7 +46,7 @@ Our team consists of passionate and driven individuals working towards the futur
 <div style="display: flex; justify-content: space-around; align-items: center; gap: 20px;">
 
   <div style="text-align: center; width: 200px;">
-  <a href="richard.html" style="text-decoration: none; color: inherit;">
+  <a href="richard.html" >
     <strong>Dr. Richard Benninger</strong><br>
       <img class="team-member" src="../../_static/assets/benninger-001_2.jpg" alt="Richard Benninger"> 
     </a>
@@ -55,7 +55,7 @@ Our team consists of passionate and driven individuals working towards the futur
   </div>
 
   <div style="text-align: center; width: 200px;">
-  <a href="stephen.html" style="text-decoration: none; color: inherit;">
+  <a href="stephen.html" >
     <strong>Dr. Stephen Kissler</strong><br>
       <img class="team-member" src="../../_static/assets/headshot_hsph_2.jpg" alt="Stephen Kissler"> 
     </a>
