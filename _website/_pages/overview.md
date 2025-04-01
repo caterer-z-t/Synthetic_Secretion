@@ -33,7 +33,7 @@ Our team consists of passionate and driven individuals working towards the futur
   <div style="text-align: center; width: 200px;">
   <a href="zac.html" >
     <strong>Zachary Caterer</strong><br>
-      <img class="team-member" src="{{ site.baseurl }}/_static/assets/Zach%20Caterer-DSC_0722.jpg" alt="Zachary Caterer">
+      <img class="team-member" src="../_static/assets/Zach%20Caterer-DSC_0722.jpg" alt="Zachary Caterer">
     </a>
     <a href="http://caterer-z-t.github.io">Website</a> | <a href="https://www.linkedin.com/in/zacharytcaterer/">LinkedIn</a><br>
     Research Interests:
