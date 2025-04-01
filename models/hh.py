@@ -35,7 +35,7 @@ class HodgkinHuxley:
         self.EK = -77  # Potassium reversal potential (mV)
         self.EL = -65  # Leak reversal potential (mV)
         self.gNa = 40  # Maximum sodium conductance (mS/cm^2)
-        self.gK = 35  # Maximum potassium conductance (mS/cm^2)
+        self.gK = 35   # Maximum potassium conductance (mS/cm^2)
         self.gL = 0.3  # Leak conductance (mS/cm^2)
 
         # Time parameters
