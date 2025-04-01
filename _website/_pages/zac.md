@@ -3,12 +3,12 @@
 <head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-        @import url('./assets/css/main.css');
+        @import url('../../_static/assets/css/main.css');
    </style>
 </head>
 
 <div style="display: flex; align-items: center; justify-content: flex-start; gap: 20px;">
-  <img class="team-member" src="./assets/Zach Caterer-DSC_0722.jpg" alt="Zachary Caterer" style="height: 100%; border-radius: 50%;">
+  <img class="team-member" src="../../_static/assets/Zach Caterer-DSC_0722.jpg" alt="Zachary Caterer" style="height: 100%; border-radius: 50%;">
   
   <div style="flex-grow: 1;">
     <h2>About Me</h2>
