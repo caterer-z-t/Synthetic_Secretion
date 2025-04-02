@@ -9,3 +9,5 @@ Here are some key publications and references that provide background and suppor
 - Watts, Margaret, et al. "Paracrine regulation of glucagon secretion: the β/α/δ model." American Journal of Physiology-Endocrinology and Metabolism 310.8 (2016): E597-E611. [doi.org/10.1152/ajpendo.00415.2015](https://doi.org/10.1152/ajpendo.00415.2015)
 
 - Gerstner, Wulfram, et al. Neuronal dynamics: From single neurons to networks and models of cognition. Cambridge University Press, 2014. 
+
+- Bertram, Richard, et al. "The phantom burster model for pancreatic β-cells." Biophysical journal 79.6 (2000): 2880-2892. 
