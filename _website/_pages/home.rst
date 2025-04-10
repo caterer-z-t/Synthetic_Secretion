@@ -9,5 +9,4 @@ Welcome to the Synthetic Secretion Project.
 
    iq_bio_team_rotation.md
    research_focus.md
-   goals.md
 

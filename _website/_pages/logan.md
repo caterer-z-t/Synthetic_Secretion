@@ -1,4 +1,4 @@
-# Logan Barrios
+# **Logan Barrios**
 
 ## About Me
 

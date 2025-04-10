@@ -30,6 +30,34 @@ class SingleBetaCell:
         vn=-9,
         sn=10,
     ):
+        """
+        Initialize the SingleBetaCell model with default parameters.
+
+        Parameters:
+        - gs1: Conductance of s1 channel
+        - gs2: Conductance of s2 channel
+        - taus1: Time constant for s1
+        - taus2: Time constant for s2
+        - tnbar: Time constant for n
+        - vs1: Voltage for s1
+        - vs2: Voltage for s2
+        - ss1: Steady-state value for s1
+        - ss2: Steady-state value for s2
+        - s1knot: Initial value for s1
+        - s2knot: Initial value for s2
+        - gl: Conductance of leak channel
+        - vl: Reversal potential of leak channel
+        - gk: Conductance of potassium channel
+        - vk: Reversal potential of potassium channel
+        - gca: Conductance of calcium channel
+        - vca: Reversal potential of calcium channel
+        - lambda_: Scaling factor for n
+        - cm: Membrane capacitance
+        - vm: Voltage for m
+        - sm: Steady-state value for m
+        - vn: Voltage for n
+        - sn: Steady-state value for n
+        """
         # Store all parameters as instance variables
         self.gs1 = gs1
         self.gs2 = gs2
@@ -56,7 +84,15 @@ class SingleBetaCell:
         self.sn = sn
 
     def dynamics(self, t, x):
-        """Calculate the dynamics of the beta cell model"""
+        """Calculate the dynamics of the beta cell model
+        
+        Parameters:
+        - t: Time variable
+        - x: State variables (v, n, s1, s2)
+        
+        Returns:
+        - dxdt: Derivative of state variables
+        """
         # Unpack variables
         v, n, s1, s2 = x
 
