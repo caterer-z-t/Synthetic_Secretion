@@ -100,7 +100,7 @@ class SingleDeltaCell:
             "mkdr": 0.237,
         }
 
-    def dynamics(self, t, y):
+    def dynamics(self, t, y, v_neighbors=None, g_total=0):
         """
         Calculate the dynamics of the delta cell model
 
@@ -110,6 +110,10 @@ class SingleDeltaCell:
             Current time
         y : array-like
             State variables: [v, mcal, hcal, mcat, hcat, mcan, hcan, mna, hna, mka, hka, mkdr]
+        v_neighbors : float or None
+            Average voltage of neighboring cells
+        g_total : float
+            Total gap junction conductance to neighbors
 
         Returns:
         --------
@@ -171,9 +175,14 @@ class SingleDeltaCell:
         Ikatp = p["gkatp"] * (v - p["vk"])
         Il = p["gl"] * (v - p["vl"])
 
+        # Gap junction current
+        Igj = g_total * (v_neighbors - v) if v_neighbors is not None else 0
+
         # Differential equations
         dydt = np.zeros(12)
-        dydt[0] = -(Ical + Icat + Ican + Ina + Ikdr + Ikatp + Ika + Il) / p["cm"]  # dv
+        dydt[0] = (
+            -(Ical + Icat + Ican + Ina + Ikdr + Ikatp + Ika + Il - Igj) / p["cm"]
+        )  # dv
         dydt[1] = (mcalinf - mcal) / (1 * taucalm)  # dmcal
         dydt[2] = (hcalinf - hcal) / (1 * taucalh)  # dhcal
         dydt[3] = (mcatinf - mcat) / (1 * taucatm)  # dmcat

@@ -40,8 +40,10 @@ class BetaCellNetwork:
         self.cells = []
         for i in range(num_cells):
             # Add slight variation to parameters
-            gs1 = np.random.normal(5, 0.2)
-            gs2 = np.random.normal(32, 1.0)
+            # gs1 = np.random.normal(5, 0.2)
+            # gs2 = np.random.normal(32, 1.0)
+            gs1 = np.random.normal(5, 0.05)
+            gs2 = np.random.normal(32, 0.2)
             self.cells.append(SingleBetaCell(gs1=gs1, gs2=gs2))
 
         # Create connectivity matrix (adjacency matrix with weights)
@@ -51,6 +53,7 @@ class BetaCellNetwork:
         """Create network connectivity with gap junctions"""
         # Initialize adjacency matrix with zeros
         self.adjacency_matrix = np.zeros((self.num_cells, self.num_cells))
+        self.gj_matrix = np.zeros((self.num_cells, self.num_cells))
 
         # Create a graph for visualization
         self.graph = nx.Graph()
@@ -116,8 +119,48 @@ class BetaCellNetwork:
                     self.adjacency_matrix[i, j] = conductance
                     self.adjacency_matrix[j, i] = conductance
 
+                    gj_value = max(0, np.random.normal(self.mean_gj, self.std_gj))
+                    self.adjacency_matrix[i, j] = self.adjacency_matrix[j, i] = 1
+                    self.gj_matrix[i, j] = self.gj_matrix[j, i] = gj_value
+
+                    # make the size of the edge proportional to gj_value
+                    # self.graph.edges[i, j]['weight'] = gj_value
+
                     # Add edge to graph
                     self.graph.add_edge(i, j, weight=conductance)
+
+    def network_dynamics(self, t, X):
+
+        """
+        Coupled dynamics of the beta cell network
+        Parameters:
+        -----------
+        t : float
+            Current time
+        X : array
+            State variables for all cells: [v1, n1, s11, s21, v2, n2, s12, s22, ...]
+        Returns:
+        --------
+        dXdt : array
+            Derivatives of state variables
+        """
+        dXdt = np.zeros_like(X)
+        for i, cell in enumerate(self.cells):
+            idx = 4 * i
+            vi = X[idx]
+            vi_neighbors = 0
+            g_total = 0
+            for j in range(self.num_cells):
+                if i != j and self.adjacency_matrix[i, j]:
+                    vj = X[4 * j]
+                    gj = self.gj_matrix[i, j]
+                    vi_neighbors += gj * vj
+                    g_total += gj
+            v_neighbors = vi_neighbors / g_total if g_total > 0 else vi
+            dXdt[idx : idx + 4] = cell.dynamics(
+                t, X[idx : idx + 4], v_neighbors, g_total
+            )
+        return dXdt
 
     def dynamics(self, t, x):
         """
@@ -154,7 +197,9 @@ class BetaCellNetwork:
             for j in range(self.num_cells):
                 if self.adjacency_matrix[i, j] > 0:
                     v_j = x_reshaped[j, 0]  # Voltage of cell j
-                    gj = self.adjacency_matrix[i, j] * 1e-12  # Convert pS to S
+                    gj = self.adjacency_matrix[
+                        i, j
+                    ]  # * 1e-12  # Convert pS to S # TODO
                     gj_current += gj * (v_j - v_i)
 
             # Add gap junction current to voltage derivative (I = g*dV)
@@ -179,22 +224,14 @@ class BetaCellNetwork:
         sol : OdeSolution
             Solution object from solve_ivp
         """
+
+        x0 = np.array([-50, 0, 0, 0.6] * self.num_cells)
         tspan = (0, tmax)
 
-        # Initialize states with slight variation
-        x0 = np.zeros(self.num_cells * 4)
-        for i in range(self.num_cells):
-            # Voltage slight variation
-            x0[i * 4] = -50 + np.random.normal(0, 1)
-            # n initialized to 0
-            x0[i * 4 + 1] = 0.0
-            # s1 initialized to 0
-            x0[i * 4 + 2] = 0.0
-            # s2 slight variation around v0
-            x0[i * 4 + 3] = 0.6 + np.random.normal(0, 0.05)
-
         # Solve the system
-        sol = solve_ivp(self.dynamics, tspan, x0, method="RK45", max_step=max_step)
+        sol = solve_ivp(
+            self.network_dynamics, tspan, x0, method="RK45", max_step=max_step
+        )
 
         return sol
 
@@ -232,105 +269,6 @@ class BetaCellNetwork:
         ax.set_zlabel("Z")
         plt.tight_layout()
         plt.show()
-
-    def _plot_network_plotly(self):
-        """Visualize the network connectivity using Plotly"""
-
-        # Extract 3D positions
-        pos = self.positions
-        xs = [pos[i][0] for i in range(self.num_cells)]
-        ys = [pos[i][1] for i in range(self.num_cells)]
-        zs = [pos[i][2] for i in range(self.num_cells)]
-
-        # Create figure
-        fig = go.Figure()
-
-        # Plot nodes (scatter3d)
-        fig.add_trace(
-            go.Scatter3d(
-                x=xs,
-                y=ys,
-                z=zs,
-                mode="markers+text",
-                marker=dict(size=10, color="blue", opacity=0.8),
-                text=[str(i) for i in range(self.num_cells)],
-                textposition="top center",
-                name="Cells",
-            )
-        )
-
-        # Plot edges
-        edge_x = []
-        edge_y = []
-        edge_z = []
-        edge_weights = []
-
-        for i, j in self.graph.edges():
-            weight = self.adjacency_matrix[i, j]
-            edge_weights.append(weight)
-
-            # Add None to create separation between edges
-            edge_x.extend([pos[i][0], pos[j][0], None])
-            edge_y.extend([pos[i][1], pos[j][1], None])
-            edge_z.extend([pos[i][2], pos[j][2], None])
-
-        # Normalize weights for width and color
-        norm_weights = [w / self.mean_gj for w in edge_weights]
-
-        # Create a colorscale for the edges based on weight
-        edge_colors = []
-        for w in norm_weights:
-            # Repeat each color 3 times (for the two points and None)
-            edge_colors.extend([w, w, None])
-
-        # Add edges trace
-        fig.add_trace(
-            go.Scatter3d(
-                x=edge_x,
-                y=edge_y,
-                z=edge_z,
-                mode="lines",
-                line=dict(
-                    width=5,
-                    color=edge_colors,
-                    colorscale="Viridis",
-                    cmin=0.5,
-                    cmax=1.5,
-                    colorbar=dict(
-                        title="GJ Strength<br>(normalized)", thickness=15, len=0.5
-                    ),
-                ),
-                hoverinfo="none",
-                name="Connections",
-            )
-        )
-
-        # Add hover text with connection details
-        hover_texts = []
-        for i, j in self.graph.edges():
-            weight = self.adjacency_matrix[i, j]
-            hover_texts.append(
-                f"Connection: Cell {i} - Cell {j}<br>GJ Strength: {weight:.2f} pS"
-            )
-
-        # Update layout
-        fig.update_layout(
-            title=f"Beta Cell Network (n={self.num_cells})",
-            scene=dict(xaxis_title="X", yaxis_title="Y", zaxis_title="Z"),
-            width=900,
-            height=700,
-            showlegend=True,
-            legend=dict(x=0, y=0),
-            margin=dict(l=0, r=0, b=0, t=30),
-        )
-
-        return fig
-
-    def plot_network_plotly(self):
-        """Visualize the network connectivity with Plotly"""
-        fig = self._plot_network_plotly()
-        fig.show()
-        return fig
 
     def plot_results(self, sol):
         """
@@ -407,133 +345,20 @@ class BetaCellNetwork:
         plt.grid(True, alpha=0.3)
         plt.show()
 
-    def save_data(self, sol, filename="network_data.npz"):
-        """
-        Save simulation results to a file
-
-        Parameters:
-        -----------
-        sol : OdeSolution
-            Solution from simulate method
-        filename : str
-            Filename to save data
-        """
-        # Extract data
-        t = sol.t
-        y = sol.y
-
-        # Save to npz file
-        np.savez(
-            filename,
-            t=t,
-            y=y,
-            adjacency_matrix=self.adjacency_matrix,
-            positions=self.positions,
-        )
-
-        print(f"Data saved to {filename}")
-
-    def create_animation(self, sol, interval=50, skip=10):
-        """
-        Create an animation of the network activity
-
-        Parameters:
-        -----------
-        sol : OdeSolution
-            Solution from simulate method
-        interval : int
-            Animation interval in ms
-        skip : int
-            Skip frames to speed up animation
-
-        Returns:
-        --------
-        anim : FuncAnimation
-            Animation object
-        """
-        # Set up the figure and axes
-        fig = plt.figure(figsize=(10, 8))
-        ax = fig.add_subplot(111, projection="3d")
-
-        # Extract positions
-        pos = self.positions
-        xs = [pos[i][0] for i in range(self.num_cells)]
-        ys = [pos[i][1] for i in range(self.num_cells)]
-        zs = [pos[i][2] for i in range(self.num_cells)]
-
-        # Get voltage data
-        voltages = np.zeros((len(sol.t), self.num_cells))
-        for i in range(self.num_cells):
-            voltages[:, i] = sol.y[i * 4]
-
-        # Normalize voltages to 0-1 range for color mapping
-        vmin, vmax = -70, -10  # Typical voltage range
-        norm_voltages = (voltages - vmin) / (vmax - vmin)
-        norm_voltages = np.clip(norm_voltages, 0, 1)
-
-        # Plot initial state
-        scatter = ax.scatter(
-            xs, ys, zs, s=100, c=norm_voltages[0], cmap="coolwarm", vmin=0, vmax=1
-        )
-
-        # Plot edges
-        edges = []
-        for i, j in self.graph.edges():
-            x = [pos[i][0], pos[j][0]]
-            y = [pos[i][1], pos[j][1]]
-            z = [pos[i][2], pos[j][2]]
-            (line,) = ax.plot(x, y, z, "gray", alpha=0.5)
-            edges.append(line)
-
-        # Add colorbar
-        cbar = plt.colorbar(scatter, ax=ax)
-        cbar.set_label("Membrane Potential (normalized)")
-        ticks = np.linspace(0, 1, 5)
-        cbar.set_ticks(ticks)
-        cbar.set_ticklabels([f"{v:.1f}" for v in np.linspace(vmin, vmax, 5)])
-
-        # Set labels and title
-        ax.set_xlabel("X")
-        ax.set_ylabel("Y")
-        ax.set_zlabel("Z")
-        title = ax.set_title(f"Time: 0.000 s")
-
-        # Animation update function
-        def update(frame):
-            # Skip frames to speed up animation
-            i = frame * skip
-            if i >= len(sol.t):
-                i = len(sol.t) - 1
-
-            # Update colors based on voltages
-            scatter.set_array(norm_voltages[i])
-
-            # Update title with time in seconds
-            title.set_text(f"Time: {sol.t[i]/1000:.3f} s")
-
-            return [scatter, title]
-
-        # Create animation
-        frames = min(500, len(sol.t) // skip)  # Limit frames for performance
-        anim = FuncAnimation(fig, update, frames=frames, interval=interval, blit=False)
-
-        plt.tight_layout()
-        plt.show()
-
-        return anim
-
 
 def main():
-    # Create a network of 10 beta cells
+    # Create a network of 10 beta cells w/ gap junctions
     network = BetaCellNetwork(
-        num_cells=10, mean_gj=40, std_gj=1, min_connections=1, max_connections=5
+        num_cells=10, mean_gj=40, std_gj=8, min_connections=1, max_connections=5
     )
+
+    # No gap junctions, de-synchronized
+    # network = BetaCellNetwork(
+    #    num_cells=10, mean_gj=0, std_gj=0, min_connections=1, max_connections=5
+    # )
 
     # Visualize the network
     network.plot_network()
-
-    # Optionally visualize with Plotly
-    # network.plot_network_plotly()
 
     # Simulate network dynamics
     sol = network.simulate(tmax=90000)
@@ -541,11 +366,6 @@ def main():
     # Plot results
     network.plot_results(sol)
 
-    # Optionally save data
-    # network.save_data(sol)
-
-    # Create animation (uncomment to run)
-    anim = network.create_animation(sol)
 
 if __name__ == "__main__":
     main()

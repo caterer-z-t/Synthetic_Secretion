@@ -30,34 +30,7 @@ class SingleBetaCell:
         vn=-9,
         sn=10,
     ):
-        """
-        Initialize the SingleBetaCell model with default parameters.
-
-        Parameters:
-        - gs1: Conductance of s1 channel
-        - gs2: Conductance of s2 channel
-        - taus1: Time constant for s1
-        - taus2: Time constant for s2
-        - tnbar: Time constant for n
-        - vs1: Voltage for s1
-        - vs2: Voltage for s2
-        - ss1: Steady-state value for s1
-        - ss2: Steady-state value for s2
-        - s1knot: Initial value for s1
-        - s2knot: Initial value for s2
-        - gl: Conductance of leak channel
-        - vl: Reversal potential of leak channel
-        - gk: Conductance of potassium channel
-        - vk: Reversal potential of potassium channel
-        - gca: Conductance of calcium channel
-        - vca: Reversal potential of calcium channel
-        - lambda_: Scaling factor for n
-        - cm: Membrane capacitance
-        - vm: Voltage for m
-        - sm: Steady-state value for m
-        - vn: Voltage for n
-        - sn: Steady-state value for n
-        """
+        """Initialize the SingleBetaCell model with default parameters"""
         # Store all parameters as instance variables
         self.gs1 = gs1
         self.gs2 = gs2
@@ -83,16 +56,8 @@ class SingleBetaCell:
         self.vn = vn
         self.sn = sn
 
-    def dynamics(self, t, x):
-        """Calculate the dynamics of the beta cell model
-        
-        Parameters:
-        - t: Time variable
-        - x: State variables (v, n, s1, s2)
-        
-        Returns:
-        - dxdt: Derivative of state variables
-        """
+    def dynamics(self, t, x, v_neighbors=0, g_total=0):
+        """Calculate the dynamics of the beta cell model"""
         # Unpack variables
         v, n, s1, s2 = x
 
@@ -110,8 +75,10 @@ class SingleBetaCell:
         is1 = self.gs1 * s1 * (v - self.vk)
         is2 = self.gs2 * s2 * (v - self.vk)
 
+        igj = g_total * (v_neighbors - v) if g_total > 0 else 0
+
         # Differential equations
-        vdot = -(ica + ik + il + is1 + is2) / self.cm
+        vdot = -(ica + ik + il + is1 + is2 - igj) / self.cm
         ndot = self.lambda_ * (ninf - n) / taun
         s1dot = (s1inf - s1) / self.taus1
         s2dot = (s2inf - s2) / self.taus2

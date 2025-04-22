@@ -6,3 +6,6 @@ _build/
 
 # In[3]: CPP Cha Noma Models
 models/Jenn_Cha_Model/
+
+# In[4]: Pycache
+__pycache__/

@@ -5,6 +5,7 @@ import networkx as nx
 
 from single_delta_cell import SingleDeltaCell  # Assuming this is the correct import path
 
+
 class DeltaCellNetwork:
     def __init__(
         self,
@@ -14,6 +15,7 @@ class DeltaCellNetwork:
         min_connections=1,
         max_connections=5,
         param_variation=0.02,
+        coupling_strength=0.001,
     ):
         """
         Initialize a network of coupled delta cells
@@ -39,6 +41,7 @@ class DeltaCellNetwork:
         self.min_connections = min_connections
         self.max_connections = max_connections
         self.param_variation = param_variation
+        self.coupling_strength = coupling_strength
 
         # Create individual delta cells with slightly varied parameters
         self.cells = []
@@ -60,6 +63,8 @@ class DeltaCellNetwork:
 
         # Create connectivity matrix (adjacency matrix with weights)
         self.create_network()
+
+        self.init_states()
 
     def create_network(self):
         """Create network connectivity with gap junctions"""
@@ -179,6 +184,84 @@ class DeltaCellNetwork:
         # Return flattened array
         return dxdt.flatten()
 
+    def init_states(self):
+        """Initialize state variables for all cells with slight variations"""
+        self.y0 = np.zeros(12 * self.num_cells)
+
+        for i in range(self.num_cells):
+            # Get base initial conditions
+            cell_y0 = [
+                self.cells[i].init[k]
+                for k in [
+                    "v",
+                    "mcal",
+                    "hcal",
+                    "mcat",
+                    "hcat",
+                    "mcan",
+                    "hcan",
+                    "mna",
+                    "hna",
+                    "mka",
+                    "hka",
+                    "mkdr",
+                ]
+            ]
+
+            # Add small random variation to voltage initial condition
+            # This causes cells to start in different phases
+            cell_y0[0] += np.random.uniform(-5, 5)
+
+            # Set in overall state vector
+            self.y0[i * 12 : (i + 1) * 12] = cell_y0
+
+    def network_dynamics(self, t, y):
+        """
+        Calculate dynamics for the entire network
+
+        Parameters:
+        -----------
+        t : float
+            Current time
+        y : array-like
+            State variables for all cells concatenated
+
+        Returns:
+        --------
+        dydt : array
+            Derivatives of all state variables
+        """
+        dydt = np.zeros_like(y)
+
+        # Process each cell
+        for i in range(self.num_cells):
+            # Extract state variables for this cell
+            cell_y = y[i * 12 : (i + 1) * 12]
+            cell_v = cell_y[0]
+
+            # Calculate average voltage of neighbors
+            v_neighbors = 0
+            num_neighbors = 0
+
+            for neighbor in self.graph.neighbors(i):
+                v_neighbors += y[neighbor * 12]  # Voltage is the first state variable
+                num_neighbors += 1
+
+            if num_neighbors > 0:
+                v_neighbors /= num_neighbors
+                g_total = self.coupling_strength * num_neighbors
+            else:
+                v_neighbors = cell_v  # No neighbors, no coupling
+                g_total = 0
+
+            # Get dynamics for this cell
+            cell_dydt = self.cells[i].dynamics(t, cell_y, v_neighbors, g_total)
+
+            # Update overall dydt
+            dydt[i * 12 : (i + 1) * 12] = cell_dydt
+
+        return dydt
+
     def simulate(self, tmax=2000, max_step=5.0):
         """
         Simulate the network of coupled delta cells
@@ -197,39 +280,11 @@ class DeltaCellNetwork:
         """
         tspan = (0, tmax)
 
-        # Initialize states with slight variation
-        x0 = np.zeros(self.num_cells * 12)
-
-        for i in range(self.num_cells):
-            # Get initial conditions for this cell
-            cell_init = self.cells[i].init
-            init_vars = [
-                "v",
-                "mcal",
-                "hcal",
-                "mcat",
-                "hcat",
-                "mcan",
-                "hcan",
-                "mna",
-                "hna",
-                "mka",
-                "hka",
-                "mkdr",
-            ]
-
-            # Add slight variation to initial conditions
-            for j, var in enumerate(init_vars):
-                base_value = cell_init[var]
-                # Add small random variation (1%)
-                variation = base_value * 0.01 * np.random.randn()
-                x0[i * 12 + j] = base_value + variation
-
         # Solve the system
         sol = solve_ivp(
-            self.dynamics,
+            self.network_dynamics,
             tspan,
-            x0,
+            self.y0,
             method="LSODA",
             max_step=max_step,
             rtol=1e-6,
@@ -301,10 +356,12 @@ class DeltaCellNetwork:
             plt.legend(loc="upper right", ncol=2)
 
 
-# Example usage
 def main():
     # Create a delta cell network
-    network = DeltaCellNetwork(num_cells=5, mean_gj=50)
+    network = DeltaCellNetwork(num_cells=5, coupling_strength=1)
+
+    # Simulate the network w/ no coupline
+    # network = DeltaCellNetwork(num_cells=5, coupling_strength=0)
 
     # Visualize the network
     network.plot_network()
